@@ -1,0 +1,87 @@
+/* 
+ * Coder: Angela Pang
+ * 
+ * Assignment: CIS4500 Week 2 - Visibility (Candy 4 Aliens)
+ * Date: 2015/01/14
+ * Modified: 2015/01/27
+ * 
+ * Filename: styles.css
+ * 
+ * Description:
+ * Style sheet for the visibility game web page. 
+ * 
+ */
+
+/*** General Tag Sytles ***/
+body {
+    width: 99%;
+    background-color: #fff8ba;
+    overflow-x: hidden;
+}
+
+#content {
+    width: 800px;
+    height: auto;
+    
+    margin: auto;
+    display: block;
+}
+
+#infoDiv {
+    width: 800px;
+    height: auto;
+    text-align: left;
+    margin: auto;
+}
+
+
+#gameContent {
+    height: auto;
+}
+
+canvas {
+    margin: auto;
+    display: block;
+    border: 1px solid #d3d3d3;
+}
+
+.gameMenuDiv, #gameStartDiv {
+    margin: auto;
+    
+    width: 300px;    /*imgBlock x 6*/
+    height: auto;   /*imgBlock x 8*/
+}
+
+#gameStartDiv {
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px 0 10px 0;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:700;
+}
+
+
+#characterDiv > img{
+    padding: 10px 20px 20px 20px;
+    margin: auto;
+}
+
+#characterDiv {
+    margin: auto;
+}
+
+/*** No Script ***/
+noscript h1 {
+    width: 100%;
+    font-size: 24px;
+    background-color: #f00;    
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;    
+    text-align: center
+}
+
+
+

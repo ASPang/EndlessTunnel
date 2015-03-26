@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <title>Endless Tunnels</title>
+      <meta name="description" content="Find your way out of the underground tunnels." />
+
+      <!-- Stylesheets -->
+      <link href="css/styles.css" rel="stylesheet" type="text/css" />
+
+      <!-- jQuery - Enables the carousel to displayed on the page -->
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+   </head>
+
+   <body>
+      <!-- Inform the user to enable JavaScript if it's disabled -->
+      <noscript><h1>Please enable JavaScript</h1></noscript>
+      <div id="content">
+         <div id="gameContent">            
+            <!-- Game Information Display --> 
+            <div class="gameMenuDiv">
+               <!-- Game Title --
+               <h1></h1-->
+            </div>
+
+            <!-- Canvas -->
+            <canvas id="gameCanvas" width="500" height="300">Your browser does not support the HTML5 canvas tag.</canvas>
+                        
+         </div>
+         
+      </div>
+      
+      <hr>
+      
+      <!-- Game Instruction Section --
+      <div id="infoDiv">
+         <h4>State Wars Instructions</h4-->
+
+         <!-- How To --
+         <h5>How To Start:</h5>
+         <p>To start the game click the "Start Game" button below the game window.</p-->
+         
+         <!-- Controls --
+         <h5>Controls</h5>
+          Use the keyboard arrow keys to move around the game window
+         <ul>
+            <li>
+               Right Arrow Key - Move your character right;
+            </li>
+            <li>
+               Left Arrow Key - Move your character Left;
+            </li>
+            <li>
+               Space Bar - Use the space bar to shoot a projectile. 
+               <b>HINT: </b>The projectile can bounce off of the ground 
+               and tree on the left.
+            </li>
+            
+         </ul-->
+        
+         <!-- Game play --
+         <h5>Game Play</h5>
+         <p>
+            Don't let the seeds hit the ground and yourself. Try to destroy them all!
+         </p-->
+         
+         <!-- Characters and Items --
+         <h5>Characters</h5>
+         <div id="characterDiv">
+            <table style="width:100%">
+              <tr>
+                <td>
+                  <img src="img/ship.png" height="auto" width="auto" />
+                </td>
+                <td>
+                  <img src="img/plant.png" />
+                </td>
+                <td>
+                  <img src="img/projectile.png" />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Player</b>
+                  <br>
+                  A spaceship who is attempting to destroy all plant life by 
+                  preventing any new seedlings.
+                </td>
+                <td>
+                  <b>Seeds</b>
+                  <br>
+                  Seek and destroy. Don't let them hit the ground or you.
+                  
+                </td>
+                <td>
+                  <b>Projectile</b>
+                  <br>
+                  They can bounce off of walls and the ground. Unfortunately,
+                  you can only shoot sideways.
+                </td>
+              </tr>
+            </table> 
+         </div>
+      </div-->
+
+      <!-- JavaScript -->
+      <script type="text/javascript" src="js/variableList.js"></script>
+      <script type="text/javascript" src="js/myscript.js"></script>
+      <script type="text/javascript" src="js/keyboard.js"></script>
+      <script type="text/javascript" src="js/mouse.js"></script>
+      <script type="text/javascript" src="js/blockPieces.js"></script>
+      <script type="text/javascript" src="js/gameTimer.js"></script>
+      
+      <script type="text/javascript" src="js/imageLib.js"></script>
+      <script type="text/javascript" src="js/interface.js"></script>
+      <script type="text/javascript" src="js/physicMechanics.js"></script>
+      <!--script type="text/javascript" src="js/enemyAI.js"></script-->
+      <script type="text/javascript" src="js/intersections.js"></script>
+      
+      <script type="text/javascript" src="js/maze.js"></script>
+   </body>
+</html>
