@@ -38,6 +38,10 @@ imageLib.prototype.genMaze = function(start, end, numDoors) {
    row = row * this.maze.row;
    this.setExitRow(row);
    
+   /*Connect the portals together*/
+   this.linkMazeDoors();
+   
+   /*************TESTING!!!!!!!!!!!!**************/
    console.log("Exit created " + " " + row);
    var line = ""
    for (i = 0; i < 100; i++) {
@@ -47,6 +51,7 @@ imageLib.prototype.genMaze = function(start, end, numDoors) {
          line = "";
       }
    }
+   /*************TESTING!!!!!!!!!!!! - END**************/
 };
 
 /*Gerenate the door location in the maze*/
@@ -87,6 +92,68 @@ imageLib.prototype.genMazePortEnd = function(doorLoc) {
    this.maze.grid[y] = doorLoc;
    
    return x;   //Return the row
+};
+
+/*Create a floor bridge between doors*/
+imageLib.prototype.linkMazeDoors = function() {
+   var start = -1;   //First door in row flag
+   var end = -1;  //last door in row flag
+   var x, y;   //Loop counter
+   
+   /*Go through each row*/
+   for (y = 0; y < this.maze.row - 2; y++) {    //-2 since you don't want the bottom row
+      /*Find first door*/
+      for (x = 0; x < this.maze.col; x++) {
+         if (this.maze.grid[y * this.maze.row + x] > 0) {   //Found first door
+            start = y * this.maze.row + x;
+         }
+      }
+      
+      /*Find last door in the row*/
+      for (x = this.maze.col - 1; x >= 0 ; x--) {
+         if (this.maze.grid[y * this.maze.row + x] > 0) {   //Found last door
+            end = y * this.maze.row + x;
+         }
+      }
+      
+      console.log("start/end " + start + " " + end);
+      /*Join the doors*/
+      if (start >= 0 && end >= 0) {
+         this.createMazeDooorLink(start, end);
+      }
+      else {
+         start = -1;   //Reset first door in row flag
+         end = -1;  //Reset last door in row flag
+      }
+   }
+   
+   /*Generate bottom floor*/
+   for (x = ((this.maze.row - 1) * this.maze.row); x < (this.maze.row * this.maze.col - 1); x++) {
+      if (this.maze.grid[x] == -1) {
+         this.maze.grid[x] = -2;
+      }
+   }
+};
+
+/*Set the floor tiles*/
+imageLib.prototype.createMazeDooorLink = function(start, end) {
+   var x, y;   //Loop counter for row and coloumns
+   var temp;
+   
+   if (start > end) {  //Switch start and end if start value is bigger than end
+      temp = start;
+      start = end;
+      end = temp;
+   }
+   
+   for (x = start; x <= end; x++) {
+      if (this.maze.grid[x] == -1) {
+         this.maze.grid[x] = -2;
+      }
+      else if (start == end) {
+         console.log("ERROR - only one door.");
+      }      
+   }
 };
 
 /*Initialize maze grid given the row and column*/
