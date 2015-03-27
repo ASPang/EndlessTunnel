@@ -19,14 +19,10 @@ var ctxBlock;   //Block context
 
 var gameImage; //Object that'll store all the preloaded images
 var imgSrc = ["background",
- "card1", "card2", "card3", "card4",
- "card5", "card6", "card7", "card8",
- "die1", "die2", "die3", "die4", "die5", "die6", 
- "endChar1", "endChar2", "endChar3", "endChar4",
- "endWolf1", "endWolf2", "endWolf3", "endWolf4",
- "trap1", "trap2", "trap3",
- "introMenuBgd", "character", "enemy", "wolf"];   //Name of images
+ "door", "wall", "floor",
+ "introMenuBgd", "character", "enemy"];   //Name of images
 var backgroundImg;  //background image object
+//var tileBackground = [];  //Tile background images
 var character;  //character image object
 var candy;  //candy image object
 var aliens = [];

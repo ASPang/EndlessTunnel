@@ -52,12 +52,11 @@ function keyDownEvent(e) {
         case 38:
             // up key pressed
             lastKey = e.keyCode;
-            upArrowKeyEvent();
+            //upArrowKeyEvent();
             break;
         case 39:
             // right key pressed
             lastKey = e.keyCode;
-            //console.log("right key pressed");
             
             rightArrowKeyEvent();
             
@@ -65,7 +64,7 @@ function keyDownEvent(e) {
         case 40:
             // down key pressed
             lastKey = e.keyCode;
-            downArrowKeyEvent();
+            //downArrowKeyEvent();
             
             break;
         case 68:

@@ -58,6 +58,7 @@ function setupCanvas() {
     var height = 300;   //Height of the area
     var width = 500;    //Width of the area
     var square = 100;   //Size of the square
+    var tileBackground = [];  //Tile background images
     
     backgroundImg = new imageLib(gameCanvas, width, height, 0, 0);
     
@@ -77,6 +78,17 @@ function setupCanvas() {
     backgroundImg.maze.start = 90;
     backgroundImg.maze.exit = 0;    
     backgroundImg.genMaze(90,99, 5);  //Generate a maze between 90 and 99 with total number of doors
+    
+    /*Set up background Tiles*/
+    tileBackground[0] = -1; //Floor
+    tileBackground[1] = gameImage.loadedImg["floor"];
+    tileBackground[2] = -2; //wall
+    tileBackground[3] = gameImage.loadedImg["wall"];
+    tileBackground[4] = 0; //exit
+    tileBackground[5] = gameImage.loadedImg["door"];
+    tileBackground[6] = gameImage.loadedImg["door"];   //Other doors
+    backgroundImg.initMazeSpan(85, tileBackground, 7);   //Tile background would be based on grid variables
+    
     
     //setupGridSpots();
     

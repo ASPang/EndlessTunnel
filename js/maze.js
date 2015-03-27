@@ -79,8 +79,8 @@ imageLib.prototype.genMazePortEnd = function(doorLoc) {
    
    /*Check that the square location isn't occupied already*/
    // if (x-1 < 0) {
-      if (this.maze.grid[y] > 0) {
-         //return this.genMazePortEnd(doorLoc);   //If invalid then generate a different portal location
+      if (this.maze.grid[y] >= 0 || y == 0) {
+         return this.genMazePortEnd(doorLoc);   //If invalid then generate a different portal location
          
          console.log("SHOULDNT BE HERE " + this.maze.row);
       }
@@ -104,21 +104,21 @@ imageLib.prototype.linkMazeDoors = function() {
    for (y = 0; y < this.maze.row - 2; y++) {    //-2 since you don't want the bottom row
       /*Find first door*/
       for (x = 0; x < this.maze.col; x++) {
-         if (this.maze.grid[y * this.maze.row + x] > 0) {   //Found first door
+         if (this.maze.grid[y * this.maze.row + x] >= 0) {   //Found first door
             start = y * this.maze.row + x;
          }
       }
       
       /*Find last door in the row*/
       for (x = this.maze.col - 1; x >= 0 ; x--) {
-         if (this.maze.grid[y * this.maze.row + x] > 0) {   //Found last door
+         if (this.maze.grid[y * this.maze.row + x] >= 0) {   //Found last door
             end = y * this.maze.row + x;
          }
       }
       
       console.log("start/end " + start + " " + end);
       /*Join the doors*/
-      if (start >= 0 && end >= 0) {
+      if ((start >= 0 && end > 0) || (start > 0 && end >= 0)){
          this.createMazeDooorLink(start, end);
       }
       else {
@@ -198,4 +198,30 @@ imageLib.prototype.genNumRange = function(min, max) {
    num = Math.floor((Math.random() * newMax) + min);
 
    return num;
+};
+
+/*Create zoomed in version of the maze*/
+imageLib.prototype.initMazeSpan = function(center, img, numImg) {
+   var i;
+   
+   /*Initial location in the maze*/
+   this.maze.curLoc = center;
+   this.curGridLoc = Math.floor(this.gridRow * this.gridCol / 2); //Character should always appear at the center of the canvas
+   
+   /*Save the images*/
+   for(i = 0; i < numImg; i++) {
+      this.maze.img[i] = img[i];
+   }
+};
+
+/*Show maze based on current pointer location in the maze grid*/
+imageLib.prototype.showMazeSpan = function() {
+   var i;
+   var sqTotal = this.gridRow * this.gridCol;
+   
+   /*Draw all tiles to the maze*/
+   for(i = 0; i < sqTotal; i++) {
+      /*Get the */
+      this.maze.view[i];
+   }
 };
