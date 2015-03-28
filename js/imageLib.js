@@ -77,8 +77,9 @@ function imageLib(canvasName, width, height, xPos, yPos) {
       exit: 0,    //End of the maze
       row: 0,     //Width of the maze
       col: 0,     //Height of the maze
-      air: -1,    //Air value in grid
+      wall: -1,    //Air value in grid
       floor: -2,  //Floor value in grid
+      curLoc: 0,  //Pointer to the maze
     };
     
     /***Font***/

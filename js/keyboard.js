@@ -29,7 +29,8 @@ function keyDownEvent(e) {
     //e.preventDefault();   //TESTING!!!! - DISABLED DURING DEVELOPMENT
     
     /*Determine if the game over flag as been set*/
-    if (endGameFlag == true || lastKey == e.keyCode) { 
+    //if (endGameFlag == true || lastKey == e.keyCode) {    //Disable keys if game over or repeat of moving keys
+    if (endGameFlag == true) { 
       return false; //TESTING!!!! - DISABLED DURING DEVELOPMENT
     }
     
@@ -134,13 +135,16 @@ function downArrowKeyEvent() {
 /*Event when right arrow key is pressed*/
 function rightArrowKeyEvent() {
     /*Move character image*/
-    character.redraw(character.xPos + move, character.yPos);
-    character.stopWallCollision();
+    //character.redraw(character.xPos + move, character.yPos);
+    //character.stopWallCollision();
     
     /*Saving character direction*/
-    character.dx = dir;
-    character.dy = 0;
-    updateCPath();
+    //character.dx = dir;
+    //character.dy = 0;
+    //updateCPath();
+    
+    /*Update character location in the maze*/
+    backgroundImg.moveMaze(1, 0);   //(dx, dy)
     
     /*Update the game window*/
     updateGame();
@@ -149,14 +153,18 @@ function rightArrowKeyEvent() {
 /*Event when left arrow key is pressed*/
 function leftArrowKeyEvent() {
     /*Move character image*/
-    console.log(character.xPos);
-    character.redraw(character.xPos - move, character.yPos);
-    character.stopWallCollision();
-    console.log("after " + character.xPos);
+    //console.log(character.xPos);
+    // character.redraw(character.xPos - move, character.yPos);
+    // character.stopWallCollision();
+    
     /*Saving character direction*/
-    character.dx = -dir;
-    character.dy = 0;
-    updateCPath();
+    // character.dx = -dir;
+    // character.dy = 0;
+    // updateCPath();
+    
+    /*Update character location in the maze*/
+    //backgroundImg.mazeMoveLeft(1);
+    backgroundImg.moveMaze(-1, 0);   //(dx, dy)
     
     /*Update the game window*/
     updateGame();

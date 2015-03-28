@@ -78,15 +78,10 @@ imageLib.prototype.genMazePortEnd = function(doorLoc) {
    y = genNumRange(x* this.maze.col, x * this.maze.col + this.maze.col - 1); //Select a Row
    
    /*Check that the square location isn't occupied already*/
-   // if (x-1 < 0) {
-      if (this.maze.grid[y] >= 0 || y == 0) {
-         return this.genMazePortEnd(doorLoc);   //If invalid then generate a different portal location
-         
-         console.log("SHOULDNT BE HERE " + this.maze.row);
-      }
-      // return this.genMazePortEnd(doorLoc);   //If invalid then generate a different portal location
-   // }
-   
+   if (this.maze.grid[y] >= 0 || y == 0) {
+      return this.genMazePortEnd(doorLoc);   //If invalid then generate a different portal location
+   }
+      
    /*Set up the door and its portal*/
    this.maze.grid[doorLoc] = y;
    this.maze.grid[y] = doorLoc;
@@ -173,7 +168,7 @@ imageLib.prototype.setupMazeGrid = function(numSq) {
    var i = 0;
    
    for (i = 0; i < numSq; i++) {
-      this.maze.grid[i] = this.maze.air;
+      this.maze.grid[i] = this.maze.wall;
    }
 };
 
@@ -219,7 +214,6 @@ imageLib.prototype.initMazeSpan = function(center, img, numImg) {
 
    for(i = 0; i < sqTotal; i++) {
       this.maze.view.push(i);
-      //console.log("made it 1");
       this.maze.view[i] = {
          pos: 0,  //Maze position
          grid: 0,  //Image tile number
@@ -236,7 +230,7 @@ imageLib.prototype.initMazeSpan = function(center, img, numImg) {
    this.updateMazeSpan();
 };
 
-/*Show maze based on current pointer location in the maze grid*/
+/*Update maze based on current pointer location in the maze grid*/
 imageLib.prototype.updateMazeSpan = function() {
    var i = 0, x, y;
    var sqTotal, viewSqTotal, height, width, buffer, extra = 2;
@@ -283,14 +277,13 @@ imageLib.prototype.updateMazeSpan = function() {
    i = 0;
    viewHeight = (this.gridRow+extra) * this.gridSqHeight - this.gridSqHeight;
    viewWidth = (this.gridCol+extra) * this.gridSqWidth - this.gridSqWidth;
-   //console.log("JLFSLFJ " + this.gridRow + " fdsfsd " + (this.gridCol+extra) * this.gridSqWidth + " " + viewWidth);
-   //for(x = -this.gridSqHeight; x < this.maze.row * this.gridSqHeight; x += this.gridSqHeight) {
+
    for(y = -this.gridSqHeight; y < viewHeight; y += this.gridSqHeight) {
-      //for(y = -this.gridSqWidth; y < this.maze.col * this.gridSqWidth; y += this.gridSqWidth) {
       for(x = -this.gridSqWidth; x < viewWidth; x += this.gridSqWidth) {
          this.maze.view[i].x = x;
          this.maze.view[i].y = y;
-         //console.log("draw image @ " + this.maze.view[i].x + ", " + this.maze.view[i].y);
+         
+         /*Determine if still within the canvas array*/
          if (i < sqTotal) {
             i += 1;
          }
@@ -304,41 +297,20 @@ imageLib.prototype.updateMazeSpan = function() {
    var modNum = (Math.floor(this.gridCol/2) + buffer) * 2 + 1;
    var image = "";
    for(i = 0; i < sqTotal; i++) {
-      //line = line + this.maze.view[i].grid + ", ";
       /*Go through all the images and sub it in*/
-      console.log(this.maze.img.length);
       for (x = 0; x < this.maze.img.length - 1; x += 2) {
-         
          if (this.maze.view[i].grid == this.maze.img[x]) {
-            //console.log("same " + this.maze.view[i].grid + " ;';';' "+ this.maze.img[x]);
             this.maze.view[i].img = this.maze.img[x+1];
-            //console.log(this.maze.img[x+1]);
-            //console.log(this.maze.view[i].img);
             break;
          }
-         //if (x+2 >= this.maze.img.length) {
          else {
-         //else if (x+2 >= this.maze.img.length) {            
-            //console.log("diff " + this.maze.view[i].grid + " ;';';' "+ this.maze.img[x]);
             this.maze.view[i].img = this.maze.img[x+2];
          }
       }
    }
-      /*Update image*/
-      //this.image = ;
-      
-      /*Draw image*/
-      //this.canvasCtx.drawImage(this.maze.view[i].img, this.maze.view[i].x, this.maze.view[i].y,  this.gridSqWidth, this.gridSqHeight);
-      //
-      this.showMazeSpan();
-      
-//      console.log("draw image @ " + this.maze.view[i].x);
-      //character.redraw(this.maze.view[i].x, this.maze.view[i].y);
-      
-      //if ((((i + 1)) % modNum) == 0) {
-         //console.log(i + "--" + line);
-         //line = "";
-      //}
+
+   /*Draw image*/
+   this.showMazeSpan();
    
    
    /**********TESTING!!!!!!***********/
@@ -372,13 +344,10 @@ imageLib.prototype.updateMazeSpan = function() {
 imageLib.prototype.getViewArea = function(x, y, i) {
    var loc, viewRow, curRow;
    loc = this.maze.curLoc + this.maze.row * y + x;
-   //console.log(i + " Loc " + loc + " " + x + " " + y + " " + this.maze.col);
    
    /*Determine the row number*/
    viewRow = Math.floor(loc / this.maze.row);   //Row of the grid tile being examined
    curRow = Math.floor((this.maze.curLoc + this.maze.row * y) / this.maze.row);  //Current row on
-   
-   //console.log(i + " === " + viewRow +  " vs " + curRow);
     
    if(viewRow != curRow) {
       this.maze.view[i].grid = -3;
@@ -391,6 +360,7 @@ imageLib.prototype.getViewArea = function(x, y, i) {
    }
 };
 
+/*Display the maze on canvas*/
 imageLib.prototype.showMazeSpan = function() {
    var i;   //Loop counter
    var sqTotal, extra = 2;
@@ -402,4 +372,48 @@ imageLib.prototype.showMazeSpan = function() {
       /*Draw image*/
       this.canvasCtx.drawImage(this.maze.view[i].img, this.maze.view[i].x, this.maze.view[i].y,  this.gridSqWidth, this.gridSqHeight);
    }
+};
+
+/*Update current position in maze*/
+imageLib.prototype.moveMaze = function(dx, dy) {
+   var loc, newRow, curRow, newCol, curCol;
+   
+   /*If moving left or right of the maze*/
+   if (dx != 0) {
+      /*Determine the row number*/
+      curRow = Math.floor(this.maze.curLoc / this.maze.col);
+      newRow = Math.floor((this.maze.curLoc + dx) / this.maze.col);
+      console.log("moveX " + curRow + " " + newRow);
+      /*Update position only if the new position is still on the same row*/
+      if (curRow == newRow) {
+         if (this.maze.grid[this.maze.curLoc  + dx] != this.maze.wall) { //Check it doesn't hit a wall
+            console.log(this.maze.grid[this.maze.curLoc] + " vs " +  this.maze.wall);
+            this.maze.curLoc = this.maze.curLoc + dx;
+         }
+      }
+   }
+   
+   /*If moving up or down the maze*/
+   if (dy != 0) {
+      /*Determine the column number*/
+      newCol = this.maze.curLoc + (dy * this.maze.row);
+      
+      /*Update position only if within the grid array boundaries*/
+      if ((newCol > 0) && (newCol < this.maze.row * this.maze.col - 1)) {
+         if (this.maze.grid[this.maze.curLoc + dy] != this.maze.wall) { //Check it doesn't hit a wall
+            this.maze.curLoc = this.maze.curLoc + dy;
+         }
+      }
+   }
+   
+   /*Update the canvas view of the maze*/
+   this.updateMazeSpan();
+};
+
+/*Update current position in maze going Left*/
+imageLib.prototype.mazeMoveLeft = function(dir) {
+};
+
+/*Update current position in maze going Right*/
+imageLib.prototype.mazeMoveRight = function(dir) {
 };
