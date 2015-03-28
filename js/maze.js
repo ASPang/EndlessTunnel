@@ -241,6 +241,7 @@ imageLib.prototype.updateMazeSpan = function() {
    var i = 0, x, y;
    var sqTotal, viewSqTotal, height, width, buffer, extra = 2;
    var loc;
+   var viewWidth, viewHeight;
    
    sqTotal = (this.gridRow+extra) * (this.gridCol+extra);
    
@@ -280,11 +281,22 @@ imageLib.prototype.updateMazeSpan = function() {
    
    /*Set image location on the canvas*/
    i = 0;
-   for(x = -this.gridSqHeight; x < this.maze.row * this.gridSqHeight; x += this.gridSqHeight) {
-      for(y = -this.gridSqWidth; y < this.maze.col * this.gridSqWidth; y += this.gridSqWidth) {
+   viewHeight = (this.gridRow+extra) * this.gridSqHeight - this.gridSqHeight;
+   viewWidth = (this.gridCol+extra) * this.gridSqWidth - this.gridSqWidth;
+   console.log("JLFSLFJ " + this.gridRow + " fdsfsd " + (this.gridCol+extra) * this.gridSqWidth + " " + viewWidth);
+   //for(x = -this.gridSqHeight; x < this.maze.row * this.gridSqHeight; x += this.gridSqHeight) {
+   for(y = -this.gridSqHeight; y < viewHeight; y += this.gridSqHeight) {
+      //for(y = -this.gridSqWidth; y < this.maze.col * this.gridSqWidth; y += this.gridSqWidth) {
+      for(x = -this.gridSqWidth; x < viewWidth; x += this.gridSqWidth) {
          this.maze.view[i].x = x;
          this.maze.view[i].y = y;
          //console.log("draw image @ " + this.maze.view[i].x + ", " + this.maze.view[i].y);
+         if (i < sqTotal) {
+            i += 1;
+         }
+         else {
+            break;
+         }
       }
    }
    
@@ -311,14 +323,14 @@ imageLib.prototype.updateMazeSpan = function() {
             this.maze.view[i].img = this.maze.img[x+2];
          }
       }
-   
+   }
       /*Update image*/
       //this.image = ;
       
       /*Draw image*/
       //this.canvasCtx.drawImage(this.maze.view[i].img, this.maze.view[i].x, this.maze.view[i].y,  this.gridSqWidth, this.gridSqHeight);
       //
-      //this.showMazeSpan();
+      this.showMazeSpan();
       
 //      console.log("draw image @ " + this.maze.view[i].x);
       //character.redraw(this.maze.view[i].x, this.maze.view[i].y);
@@ -327,7 +339,7 @@ imageLib.prototype.updateMazeSpan = function() {
          //console.log(i + "--" + line);
          //line = "";
       //}
-   }
+   
    
    /**********TESTING!!!!!!***********/
    var line = "";
@@ -375,6 +387,8 @@ imageLib.prototype.showMazeSpan = function() {
    sqTotal = (this.gridRow+extra) * (this.gridCol+extra);
    
    for(i = 0; i < sqTotal; i++) {
+   //console.log(i + " Loc222  " + this.maze.view[i].img + " " + this.maze.view[i].x + " " +this.maze.view[i].y);
+   //console.log(this.maze.view[i].img );
       /*Draw image*/
       this.canvasCtx.drawImage(this.maze.view[i].img, this.maze.view[i].x, this.maze.view[i].y,  this.gridSqWidth, this.gridSqHeight);
    }
