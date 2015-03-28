@@ -57,6 +57,7 @@ function updateGame() {
     
     /*Draw the grid*/
     backgroundImg.drawGridLines();
+    //backgroundImg.showMazeSpan(); //TESTING!!!!!!!! -- SHOULD BE UNCOMMENTED
     turnBase();
     
     /*Redraw Character path*/    

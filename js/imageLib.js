@@ -71,7 +71,7 @@ function imageLib(canvasName, width, height, xPos, yPos) {
     this.curGridLoc = 0;
     this.maze = {
       grid: [],   //Stores generated maze
-      view: [],   //Stores the images of the maze
+      view: [{}],   //Stores the images of the maze - img: "", x: 0, y: 0, dx: 0, dy: 0
       img: [],    //Images
       start: 0,   //Starting area
       exit: 0,    //End of the maze

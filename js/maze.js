@@ -205,7 +205,7 @@ imageLib.prototype.initMazeSpan = function(center, img, numImg) {
    var i;
    
    /*Initial location in the maze*/
-   this.maze.curLoc = center;
+   this.maze.curLoc = center; //Current location within the maze array
    this.curGridLoc = Math.floor(this.gridRow * this.gridCol / 2); //Character should always appear at the center of the canvas
    
    /*Save the images*/
@@ -216,12 +216,135 @@ imageLib.prototype.initMazeSpan = function(center, img, numImg) {
 
 /*Show maze based on current pointer location in the maze grid*/
 imageLib.prototype.showMazeSpan = function() {
-   var i;
-   var sqTotal = this.gridRow * this.gridCol;
+   var i = 0, x, y;
+   var sqTotal, viewSqTotal, height, width, buffer, extra = 2;
+   var vBack, vFront, loc;
+   
+   sqTotal = (this.gridRow+extra) * (this.gridCol+extra);
+   vBack = Math.floor(sqTotal / 2);
+   vFront = sqTotal - vBack;
+   
+   buffer = 1;   //Additional view that the program will look into
+   height = (Math.floor(this.gridRow/2) + buffer);// * 2 + 1;
+   width = (Math.floor(this.gridCol/2) + buffer);// * 2 + 1;
+   //viewSqTotal = height*width;
+   
+   for(i = 0; i < sqTotal; i++) {
+      this.maze.view.push(i);
+      //console.log("made it 1");
+      this.maze.view[i] = {
+         pos: 0,  //Maze position
+         grid: 0,  //Image tile number
+         img: "", //Image tile
+         x: 0,    //x coordinate
+         y: 0,    //y coordinate
+         dx: 0,   //x direction
+         dy: 0,   //y direction
+         width: 0,
+         height: 0,
+      };
+      //console.log("made it 2 " + this.maze.view[i]);
+   }
    
    /*Draw all tiles to the maze*/
+   i = 0;
+   //for(i = 0; i < sqTotal; i++) {
+      /*Get the rows above player*/
+      for(y = height; y > 0; y--) {
+         /*Look left of player*/
+         for(x = width; x > 0; x--) {
+            this.getViewArea(x * -1,y * -1,i);
+            i += 1;
+            //console.log("===width = " + width);
+         }
+         
+         /*Middle location of the row*/
+         //this.getViewArea(0,y,i);
+         //i += 1;
+         console.log("printed middle");
+         /*Look right of player*/
+         for(x = 0; x <= width; x++) {
+            // loc = this.maze.curLoc - this.gridCol * y + x;
+            // if (loc >= 0 && loc < this.maze.row * this.maze.col) {
+               // this.maze.view[i] = this.maze.grid[loc];
+            // }
+            // else {
+               // this.maze.view[i] = -2;
+            // }
+            this.getViewArea(x,y * -1,i);
+            i += 1;
+         }
+      }
+      /*Get the rows below player*/
+      for(y = 0; y < height; y++) {
+         /*Look left of player*/
+         for(x = width; x > 0; x--) {
+            // loc = this.maze.curLoc + this.gridCol * y - x;
+            // if (loc >= 0 && loc < this.maze.row * this.maze.col) {
+               // this.maze.view[i] = this.maze.grid[loc];
+            // }
+            // else {
+               // this.maze.view[i] = -2;
+            // }
+            this.getViewArea(x * -1,y,i);
+            i += 1;
+         }
+         
+         /*Middle location of the row*/
+         //this.getViewArea(0,y,i);
+         //i += 1;
+         
+         /*Look right of player*/
+         for(x = 0; x <= width; x++) {
+            // loc = this.maze.curLoc + this.gridCol * y + x;
+            // if (loc >= 0 && loc < this.maze.row * this.maze.col) {
+               // this.maze.view[i] = this.maze.grid[loc];
+            // }
+            // else {
+               // this.maze.view[i] = -2;
+            // }
+            this.getViewArea(x,y,i);
+            i += 1;
+         }
+      }
+      /*Get current location*/
+      //this.maze.view[this.curGridLoc] = this.maze.grid[this.mazeCurLoc];
+   //}
+   
+   var modNum = (Math.floor(this.gridCol/2) + buffer) * 2 + 1;
    for(i = 0; i < sqTotal; i++) {
-      /*Get the */
-      this.maze.view[i];
+      //line = line + this.maze.view[i].grid + ", ";
+      if ((((i + 1)) % modNum) == 0) {
+         //console.log(i + "--" + line);
+         //line = "";
+      }
+   }
+   
+   /**********TESTING!!!!!!***********/
+   var line = "";
+   //var modNum = (Math.floor(this.gridCol/2) + buffer) * 2 + 1;
+   
+   for(i = 0; i < sqTotal; i++) {
+      line = line + this.maze.view[i].grid + ", ";
+      if ((((i + 1)) % modNum) == 0) {
+         console.log(i + "--" + line);
+         line = "";
+      }
+   }
+   /**********TESTING!!!!!!-END***********/
+   
+   
+};
+
+/*Get the grid information around the player*/
+imageLib.prototype.getViewArea = function(x, y, i) {
+   var loc;
+   loc = this.maze.curLoc + this.maze.col * y + x;
+   //console.log(i + " Loc " + loc + " " + x + " " + y + " " + this.maze.col);
+   if (loc >= 0 && loc < this.maze.row * this.maze.col) {
+      this.maze.view[i].grid = this.maze.grid[loc];
+   }
+   else {
+      this.maze.view[i].grid = -2;
    }
 };
