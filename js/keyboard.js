@@ -26,7 +26,7 @@ function keyDownEvent(e) {
     var avl;    //Non-empty space
     var noBlock;    //Empty Space
     
-    //e.preventDefault();   //TESTING!!!! - DISABLED DURING DEVELOPMENT
+    e.preventDefault();   //TESTING!!!! - DISABLED DURING DEVELOPMENT
     
     /*Determine if the game over flag as been set*/
     //if (endGameFlag == true || lastKey == e.keyCode) {    //Disable keys if game over or repeat of moving keys
@@ -142,6 +142,7 @@ function rightArrowKeyEvent() {
     //character.dx = dir;
     //character.dy = 0;
     //updateCPath();
+    character.image = gameImage.loadedImg["character"];
     
     /*Update character location in the maze*/
     backgroundImg.moveMaze(1, 0);   //(dx, dy)
@@ -161,6 +162,7 @@ function leftArrowKeyEvent() {
     // character.dx = -dir;
     // character.dy = 0;
     // updateCPath();
+    character.image = gameImage.loadedImg["character2"];
     
     /*Update character location in the maze*/
     //backgroundImg.mazeMoveLeft(1);

@@ -312,11 +312,11 @@ imageLib.prototype.updateMazeSpan = function() {
    for(i = 0; i < sqTotal; i++) {
       /*Go through all the images and sub it in*/
       for (x = 0; x < this.maze.img.length - 1; x += 2) {
-         if (this.maze.view[i].grid == this.maze.img[x]) {
+         if (this.maze.view[i].grid == this.maze.img[x]) {  //Walls or floors
             this.maze.view[i].img = this.maze.img[x+1];
             break;
          }
-         else {
+         else {   //Other doors
             this.maze.view[i].img = this.maze.img[x+2];
          }
       }
@@ -364,6 +364,9 @@ imageLib.prototype.getViewArea = function(x, y, i) {
     
    if(viewRow != curRow) {
       this.maze.view[i].grid = -3;
+   }
+   else if (loc == 0) { //Draw the exit door
+      this.maze.view[i].grid = -4;
    }
    else if (loc >= 0 && loc < this.maze.row * this.maze.col) {
       this.maze.view[i].grid = this.maze.grid[loc];

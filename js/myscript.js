@@ -77,15 +77,15 @@ function setupCanvas() {
     backgroundImg.initializeMazeGrid(10,10);   //Initialize the grid that's 10x10 squares
     backgroundImg.maze.start = 90;
     backgroundImg.maze.exit = 0;    
-    backgroundImg.genMaze(90,99, 5);  //Generate a maze between 90 and 99 with total number of doors
+    backgroundImg.genMaze(90,99, 7);  //Generate a maze between 90 and 99 with total number of doors
     
     /*Set up background Tiles*/
     tileBackground[0] = -1; //Floor
     tileBackground[1] = gameImage.loadedImg["floor"];
     tileBackground[2] = -2; //wall
     tileBackground[3] = gameImage.loadedImg["wall"];
-    tileBackground[4] = 0; //exit
-    tileBackground[5] = gameImage.loadedImg["door"];
+    tileBackground[4] = -4; //exit
+    tileBackground[5] = gameImage.loadedImg["exit"];
     tileBackground[6] = -3; //Outside grid/maze
     tileBackground[7] = gameImage.loadedImg["nothing"];   //Other doors
     tileBackground[8] = gameImage.loadedImg["door"];   //Other doors
@@ -131,8 +131,8 @@ function setupInterfaces() {
    backgroundImg.setNewGameButton("New Game", 175, 250,"bold 30px Arial", "black", "blue");
    
    /*Set up the Pause Game button in the Game Interface*/
-   backgroundImg.createNewButton("pauseButton", "|| Pause", 425, 16, "bold 16px Arial", "black", "blue");  //Set up the start button
-   backgroundImg.createNewButton("resumeButton", "Resume", 200, 200, "bold 24px Arial", "black", "blue");  //Set up the start button
+   backgroundImg.createNewButton("pauseButton", "|| Pause", 425, 16, "bold 16px Arial", "red", "blue");  //Set up the start button
+   backgroundImg.createNewButton("resumeButton", "Resume", 200, 200, "bold 24px Arial", "red", "blue");  //Set up the start button
    
    /*Hide Buttons*/
    backgroundImg.hideButton("pauseButton");
@@ -159,8 +159,8 @@ function setupObstacles() {
 /*Set up the character*/
 function setupCharacter(gameCanvas) {
     /*Size of character*/
-    var height = 75;
-    var width = 75;
+    var height = 100;
+    var width = 100;
     var cord = [], x, y, gridPos;
     
     var colour = "red";
