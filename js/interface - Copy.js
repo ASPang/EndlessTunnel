@@ -239,22 +239,9 @@ imageLib.prototype.setTitle = function(text, xPos, yPos, fontSize, fontWeight, f
  
  /*Hide the button on the canvas*/
 imageLib.prototype.hideButton = function(buttonName) {
-   var i;
-   console.log(this.buttonName.length);
-   /*Determine which button*/
-   console.log("BUTTONNAME " + buttonName);
-console.log(   " " + this.button[buttonName]);
+   /*Hide the button off canvas*/
    this.button[buttonName].x = this.canvas.width;
    this.button[buttonName].y = this.canvas.height;
-   // for( i = 0; i < this.buttonName.length; i++) {
-      // console.log("BUTTONNAME " + buttonName + " " + this.buttonName[i]);
-      // if (buttonName == this.buttonName[i]) {
-         // /*Hide the button off canvas*/
-         // this.button[this.buttonName[i]].x = this.canvas.width;
-         // this.button[this.buttonName[i]].y = this.canvas.height;
-         
-      // }
-   // }
 };
  /*Draw the hover version of the button canvas*/
  imageLib.prototype.showHoverButton = function(buttonName) {

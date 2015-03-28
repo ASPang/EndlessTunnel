@@ -135,8 +135,8 @@ function setupInterfaces() {
    backgroundImg.createNewButton("resumeButton", "Resume", 200, 175, "bold 24px Arial", "black", "blue");  //Set up the start button
    
    /*Hide Buttons*/
-   // backgroundImg.hideButton("pauseButton");
-   // backgroundImg.hideButton("resumeButton");
+   backgroundImg.hideButton("pauseButton");
+   backgroundImg.hideButton("resumeButton");
 }
 
 /*Set up the obstacles for the game*/

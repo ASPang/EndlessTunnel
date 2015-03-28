@@ -30,7 +30,7 @@ function keyDownEvent(e) {
     
     /*Determine if the game over flag as been set*/
     //if (endGameFlag == true || lastKey == e.keyCode) {    //Disable keys if game over or repeat of moving keys
-    if (endGameFlag == true) { 
+    if (endGameFlag == true || pauseGame == true) { 
       return false; //TESTING!!!! - DISABLED DURING DEVELOPMENT
     }
     

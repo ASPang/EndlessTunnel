@@ -24,7 +24,7 @@ function mouseClick(e) {
    /*Determine the action for the appropriate button*/
    if (button == "startButton" || button == "newGame") { //Start game button
       if (button == "newGame") {  //Reset up the canvas for a new game
-         setupCanvas();
+         //setupCanvas();
       }
       
       /*Update the game screen flag*/
@@ -86,19 +86,16 @@ function mouseLoc(e) {
      /*Determine if the button is selected*/
      if(x >= bX  && x <= (bX + bWidth) && y <= bY && y >= (bY-bHeight)){
          //document.body.style.cursor = "pointer";
-         
+         console.log("HERE " + backgroundImg.buttonName[i]);
          if (screenDisplayed == "intro") {
             backgroundImg.canvasCtx.fillStyle = "blue";
             backgroundImg.showStartButton(); 
-            console.log("HERE " + backgroundImg.buttonName[i]);
             selected = backgroundImg.buttonName[i];
-            break;
          }
          else if (screenDisplayed == "gameOver") {
             //backgroundImg.canvasCtx.fillStyle = "blue";
             backgroundImg.showHoverButton("newGame"); 
             selected = backgroundImg.buttonName[i];
-            break;
          }
          else if (screenDisplayed == "gameScreen" && backgroundImg.buttonName[i] != "startButton" && backgroundImg.buttonName[i] != "newGame") {
             console.log(backgroundImg.buttonName[i]);
@@ -107,6 +104,7 @@ function mouseLoc(e) {
          }
      }
      else{
+         //document.body.style.cursor = "";
          backgroundImg.canvasCtx.fillStyle = "black";
          //backgroundImg.showStartButton(); 
          if (screenDisplayed == "intro") {

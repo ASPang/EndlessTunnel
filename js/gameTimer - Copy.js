@@ -37,10 +37,10 @@ function startTimer() {
    startClock = new Date().getTime();   
    endGameFlag = false;
    pauseGame = false;
-
+   print("Gamepause == " + gamePause);
    /*Set up the canvas*/
-   //setupCanvas();
-
+   setupCanvas();
+   print("Gamepause == " + gamePause);
    gameTimer = setInterval(function(){updateGame();}, oneSec);  
 }
 
@@ -56,8 +56,8 @@ function updateGame() {
          countPauseTime = new Date().getTime();
       }
       
-      //backgroundImg.hideButton("pauseGame");
-      //backgroundImg.showButton("resumeGame");
+      backgroundImg.hideButton("pauseGame");
+      backgroundImg.showButton("resumeGame");
       return 0;
     }
     else {
@@ -66,8 +66,8 @@ function updateGame() {
          pauseTime += countPauseTime;
       }
       countPauseTime = 0;
-      //backgroundImg.showButton("pauseGame");
-      //backgroundImg.hideButton("resumeGame");
+      backgroundImg.showButton("pauseGame");
+      backgroundImg.hideButton("resumeGame");
     }
     
     /*Calculate time lapse*/
