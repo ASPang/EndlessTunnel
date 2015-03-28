@@ -131,12 +131,12 @@ function setupInterfaces() {
    backgroundImg.setNewGameButton("New Game", 175, 250,"bold 30px Arial", "black", "blue");
    
    /*Set up the Pause Game button in the Game Interface*/
-   backgroundImg.createNewButton("pauseButton", "|| Pause", 450, 0, "bold 24px Arial", "black", "blue");  //Set up the start button
-   backgroundImg.createNewButton("resumeButton", "Resume", 200, 175, "bold 24px Arial", "black", "blue");  //Set up the start button
+   backgroundImg.createNewButton("pauseButton", "|| Pause", 425, 16, "bold 16px Arial", "black", "blue");  //Set up the start button
+   backgroundImg.createNewButton("resumeButton", "Resume", 200, 200, "bold 24px Arial", "black", "blue");  //Set up the start button
    
    /*Hide Buttons*/
-   // backgroundImg.hideButton("pauseButton");
-   // backgroundImg.hideButton("resumeButton");
+   backgroundImg.hideButton("pauseButton");
+   backgroundImg.hideButton("resumeButton");
 }
 
 /*Set up the obstacles for the game*/

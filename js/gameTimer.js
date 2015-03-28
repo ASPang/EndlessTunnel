@@ -56,23 +56,20 @@ function updateGame() {
          countPauseTime = new Date().getTime();
       }
       
-      //backgroundImg.hideButton("pauseGame");
-      //backgroundImg.showButton("resumeGame");
+      backgroundImg.hideButton("pauseButton");
+      backgroundImg.showButton("resumeButton");
       return 0;
     }
     else {
       if (countPauseTime != 0) {
          var totalPauseTime = Math.round((new Date().getTime() - countPauseTime) / milSec);
-         pauseTime += countPauseTime;
+         pauseTime += totalPauseTime;
       }
       countPauseTime = 0;
-      //backgroundImg.showButton("pauseGame");
-      //backgroundImg.hideButton("resumeGame");
     }
     
     /*Calculate time lapse*/
     var timeElapse = Math.round((new Date().getTime() - startClock) / milSec) - pauseTime;
-    console.log(timeElapse);
 
     /*Clear the canvas*/
     backgroundImg.clearCanvas();
@@ -108,6 +105,12 @@ function updateGame() {
     //characterHitLine();
     //console.log("ing game timer " + character.xPos);
     // hitLine(character, enemy[0], pathC, pathCCount, 1);
+    
+    /*Draw buttons*/
+    if (pauseGame == false) {
+      backgroundImg.showButton("pauseButton");
+      backgroundImg.hideButton("resumeButton");
+    }
     
     /*Determine if the player has found the exit*/
     if (backgroundImg.maze.curLoc == 0) {

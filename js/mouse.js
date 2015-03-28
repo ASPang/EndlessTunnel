@@ -32,8 +32,6 @@ function mouseClick(e) {
       
       /*Start the game*/
       startTimer();
-      
-      
    }
    else if (button == "pauseButton" && screenDisplayed == "gameScreen") {
       pauseGame = true;
