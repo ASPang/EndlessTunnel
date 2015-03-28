@@ -269,7 +269,7 @@ imageLib.prototype.canvasGrid = function(squSize) {
     for (pos = 0; pos < numSq; pos++) {
         this.grid[pos] = 0;
     }
-    console.log(colNumSq + " " + rowNumSq + " " + numSq);
+    //console.log(colNumSq + " " + rowNumSq + " " + numSq);
     
     this.gridRow = rowNumSq;
     this.gridCol = colNumSq;

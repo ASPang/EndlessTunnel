@@ -18,7 +18,6 @@ var endGameFlag = true; //Game isn't running is true
 var numGamePlay = 0;
 var milSec = 1000;
 
-//var cardUp = 0;
 var degrees = 0;
 
 var endingSet = 0;
@@ -32,14 +31,12 @@ function startTimer() {
    var oneSec = 10;
    
    clearInterval(gameTimer);   
-   startClock = new Date().getTime();
-   
+   startClock = new Date().getTime();   
    endGameFlag = false;
-
-//    /*Initiate game*/
-    //initGame();
-    setupCanvas();
-    
+   
+   /*Set up the canvas*/
+   //setupCanvas();
+   
    gameTimer = setInterval(function(){updateGame();}, oneSec);  
 }
 
@@ -49,6 +46,10 @@ function updateGame() {
     var i;  //Loop counter
     var curColour, curWidth;
     
+    /*Calculate time lapse*/
+    var timeElapse = Math.round((new Date().getTime() - startClock) / milSec);
+    console.log(timeElapse);
+
     /*Clear the canvas*/
     backgroundImg.clearCanvas();
     
@@ -57,18 +58,13 @@ function updateGame() {
     
     /*Draw the grid*/
     backgroundImg.drawGridLines();
-    backgroundImg.showMazeSpan(); //TESTING!!!!!!!! -- SHOULD BE UNCOMMENTED
+    backgroundImg.showMazeSpan();
     turnBase();
     
     /*Redraw Character path*/    
     
     /*Redraw Enemy path*/
         
-    /*Draw gameplay information*/
-    // backgroundImg.canvasCtx.fillStyle = "Black";
-    // backgroundImg.canvasCtx.font = "bold 16px Arial";
-    // backgroundImg.canvasCtx.fillText("Elapse Time: " + points, backgroundImg.canvas.width / 2 - 30, 16);
-    
     /*Draw the character*/
     character.redraw(character.xPos, character.yPos);
     
@@ -89,8 +85,15 @@ function updateGame() {
     //console.log("ing game timer " + character.xPos);
     // hitLine(character, enemy[0], pathC, pathCCount, 1);
     
+    /*Determine if the player has found the exit*/
+    if (backgroundImg.maze.curLoc == 0) {
+       endGameFlag = true;      
+    }    
     
-    
+    /*Gameplay information style*/
+    backgroundImg.canvasCtx.fillStyle = "white";
+    backgroundImg.canvasCtx.font = "bold 16px Arial";
+       
     /*Determine if the game over flag as been set*/
     if (endGameFlag == true) { 
         clearInterval(gameTimer);
@@ -112,11 +115,16 @@ function updateGame() {
         character.dx = 0;
         character.dy = 0;
         
-        /*Determine the winner and display story ending*/        
+        /*Displayed Elapse time*/     
+        backgroundImg.canvasCtx.fillText("Elapse Time: " + timeElapse + "s", backgroundImg.canvas.width / 2 - 60, 225);
 
          /*Set up the option for user to start a new game*/
          screenDisplayed = "gameOver";
          backgroundImg.gameOverScreen();
+   }
+   else {
+      /*Draw gameplay information*/
+       backgroundImg.canvasCtx.fillText("Elapse Time: " + timeElapse + "s", backgroundImg.canvas.width / 2 - 50, 16);
    }
 }
 
@@ -688,27 +696,6 @@ function showEndingStory(ending) {
    
    endingImg.addImg(gameImage.loadedImg[ending]);
 }
-// /*Generate Red Riding Hood's Story*/
-// function genRedStory() {
-   // var story = genNumRange(1, 4);
-   
-   // card.image = gameImage.loadedImg["cardRed"+story];
-// }
-
-// /*Generate Wolf's Story*/
-// function genWolfStory() {
-   // var story = genNumRange(1, 4);
-   
-   // if (story == 1) {
-      
-   // }
-   // else if (story == 2) {
-   // }
-   // else if (story == 3) {
-   // }
-   // else {
-   // }
-// }
 
 
 

@@ -11,10 +11,10 @@
  * 
  */
 
-/**/
+/*Generate the maze given a starting and end position*/
 imageLib.prototype.genMaze = function(start, end, numDoors) {
    var i = 0;  //Loop counter
-   var row, doorLoc;
+   var row, doorLoc, created;
       
    /*Generate the first door*/
    doorLoc = this.genMazeDoor(start, end);
@@ -24,7 +24,6 @@ imageLib.prototype.genMaze = function(start, end, numDoors) {
    
    /*Generate the other doors*/
    for (i = 0; i < numDoors; i++) {
-      console.log("Row = " + row);
       row = row * this.maze.row;
       
       /*Generate a door*/
@@ -39,10 +38,14 @@ imageLib.prototype.genMaze = function(start, end, numDoors) {
    this.setExitRow(row);
    
    /*Connect the portals together*/
-   this.linkMazeDoors();
+   created = this.linkMazeDoors();
+   
+   /*recreate maze if there's are hanging doors with no paths to it*/
+   if(created != 1) {
+      this.genMaze(start, end, numDoors);
+   }
    
    /*************TESTING!!!!!!!!!!!!**************/
-   console.log("Exit created " + " " + row);
    var line = ""
    for (i = 0; i < 100; i++) {
       line = line + this.maze.grid [i] + ", ";
@@ -94,9 +97,10 @@ imageLib.prototype.linkMazeDoors = function() {
    var start = -1;   //First door in row flag
    var end = -1;  //last door in row flag
    var x, y;   //Loop counter
+   var created = 1;  //Linked maze door successfully
    
    /*Go through each row*/
-   for (y = 0; y < this.maze.row - 2; y++) {    //-2 since you don't want the bottom row
+   for (y = 0; y < this.maze.row - 1; y++) {    //-1 since you don't want the bottom row
       /*Find first door*/
       for (x = 0; x < this.maze.col; x++) {
          if (this.maze.grid[y * this.maze.row + x] >= 0) {   //Found first door
@@ -111,10 +115,14 @@ imageLib.prototype.linkMazeDoors = function() {
          }
       }
       
-      console.log("start/end " + start + " " + end);
       /*Join the doors*/
       if ((start >= 0 && end > 0) || (start > 0 && end >= 0)){
-         this.createMazeDooorLink(start, end);
+         created = this.createMazeDooorLink(start, end);
+         
+         /*Determine if doors linked successfully*/
+         if (created == 0 && y != 0) {
+            return created;
+         }
       }
       else {
          start = -1;   //Reset first door in row flag
@@ -128,6 +136,8 @@ imageLib.prototype.linkMazeDoors = function() {
          this.maze.grid[x] = -2;
       }
    }
+   
+   return created;   //Doors linked successfully
 };
 
 /*Set the floor tiles*/
@@ -147,8 +157,11 @@ imageLib.prototype.createMazeDooorLink = function(start, end) {
       }
       else if (start == end) {
          console.log("ERROR - only one door.");
+         return 0;   //Maze not created successfully
       }      
    }
+   
+   return 1;   //Maze created successfully
 };
 
 /*Initialize maze grid given the row and column*/
@@ -367,8 +380,6 @@ imageLib.prototype.showMazeSpan = function() {
    sqTotal = (this.gridRow+extra) * (this.gridCol+extra);
    
    for(i = 0; i < sqTotal; i++) {
-   //console.log(i + " Loc222  " + this.maze.view[i].img + " " + this.maze.view[i].x + " " +this.maze.view[i].y);
-   //console.log(this.maze.view[i].img );
       /*Draw image*/
       this.canvasCtx.drawImage(this.maze.view[i].img, this.maze.view[i].x, this.maze.view[i].y,  this.gridSqWidth, this.gridSqHeight);
    }
@@ -383,11 +394,10 @@ imageLib.prototype.moveMaze = function(dx, dy) {
       /*Determine the row number*/
       curRow = Math.floor(this.maze.curLoc / this.maze.col);
       newRow = Math.floor((this.maze.curLoc + dx) / this.maze.col);
-      console.log("moveX " + curRow + " " + newRow);
+      
       /*Update position only if the new position is still on the same row*/
       if (curRow == newRow) {
          if (this.maze.grid[this.maze.curLoc  + dx] != this.maze.wall) { //Check it doesn't hit a wall
-            console.log(this.maze.grid[this.maze.curLoc] + " vs " +  this.maze.wall);
             this.maze.curLoc = this.maze.curLoc + dx;
          }
       }
@@ -410,10 +420,24 @@ imageLib.prototype.moveMaze = function(dx, dy) {
    this.updateMazeSpan();
 };
 
-/*Update current position in maze going Left*/
-imageLib.prototype.mazeMoveLeft = function(dir) {
-};
-
-/*Update current position in maze going Right*/
-imageLib.prototype.mazeMoveRight = function(dir) {
+/*Teleport the player to new location*/
+imageLib.prototype.mazeDoorTeleport = function() {
+   var curPos, newPos;
+   
+   /*Get the door with the current position of the player*/
+   newPos = this.maze.grid[this.maze.curLoc];
+   
+   /*Determine if it's a door*/
+   if (newPos < 0) {
+      return 0;
+   }
+   
+   /*Determine if animation of travel is to be shown -- Future implementation*/
+      /*Disable keyboard*/
+   
+   /*Update player current position*/
+   this.maze.curLoc = newPos;
+   
+   /*Update the canvas view of the maze*/
+   this.updateMazeSpan();
 };

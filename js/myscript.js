@@ -90,11 +90,7 @@ function setupCanvas() {
     tileBackground[7] = gameImage.loadedImg["nothing"];   //Other doors
     tileBackground[8] = gameImage.loadedImg["door"];   //Other doors
     backgroundImg.initMazeSpan(90, tileBackground, 9);   //Tile background would be based on grid variables initMazeSpan(center, img, numImg)
-    console.log(backgroundImg.maze.grid[75]);
-    console.log(backgroundImg.maze.grid[85]);
-    console.log(backgroundImg.maze.grid[95]);
-    //backgroundImg.showMazeSpan();   //testing!!!!!!!
-    
+
     //setupGridSpots();
     
     /*Set up the game ref*/
@@ -131,8 +127,8 @@ function setupInterfaces() {
    backgroundImg.setStartButton("Start", 200, 175, "bold 24px Arial" );  //Set up the start button
    
    /*Set up the Game Over Interface screen*/
-   backgroundImg.setGameOverMsg("GAME OVER", 125, 160, "bold 60px Arial", "red");
-   backgroundImg.setNewGameButton("New Game", 200, 175,"bold 30px Arial", "black", "blue");
+   backgroundImg.setGameOverMsg("FINISH", 150, 100, "bold 60px Arial", "red");
+   backgroundImg.setNewGameButton("New Game", 175, 250,"bold 30px Arial", "black", "blue");
 }
 
 /*Set up the obstacles for the game*/

@@ -172,13 +172,10 @@ function leftArrowKeyEvent() {
 
 /*Event when space bar is pressed*/
 function spaceBarKeyEvent() {
-    /*Draw the projectile*/
-    var newProj = new physics(backgroundImg.canvasName, 10, 10, character.xPos+25, 275);
-    newProj.dx = -2;
-    newProj.dy = 2;
-    newProj.floor = backgroundImg.canvas.height;
+    /*Teleport the user*/
+    backgroundImg.mazeDoorTeleport();
     
-    projectile.push(newProj);
+    /*Update the game with the changes*/
     updateGame();
 }
 

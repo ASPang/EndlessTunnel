@@ -23,6 +23,10 @@ function mouseClick(e) {
    
    /*Determine the action for the appropriate button*/
    if (button == "startButton" || button == "newGame") { //Start game button
+      if (button == "newGame") {  //Reset up the canvas for a new game
+         setupCanvas();
+      }
+      
       /*Start the game*/
       startTimer();
       
