@@ -283,7 +283,7 @@ imageLib.prototype.updateMazeSpan = function() {
    i = 0;
    viewHeight = (this.gridRow+extra) * this.gridSqHeight - this.gridSqHeight;
    viewWidth = (this.gridCol+extra) * this.gridSqWidth - this.gridSqWidth;
-   console.log("JLFSLFJ " + this.gridRow + " fdsfsd " + (this.gridCol+extra) * this.gridSqWidth + " " + viewWidth);
+   //console.log("JLFSLFJ " + this.gridRow + " fdsfsd " + (this.gridCol+extra) * this.gridSqWidth + " " + viewWidth);
    //for(x = -this.gridSqHeight; x < this.maze.row * this.gridSqHeight; x += this.gridSqHeight) {
    for(y = -this.gridSqHeight; y < viewHeight; y += this.gridSqHeight) {
       //for(y = -this.gridSqWidth; y < this.maze.col * this.gridSqWidth; y += this.gridSqWidth) {
@@ -370,10 +370,20 @@ imageLib.prototype.updateMazeSpan = function() {
 
 /*Get the grid information around the player*/
 imageLib.prototype.getViewArea = function(x, y, i) {
-   var loc;
-   loc = this.maze.curLoc + this.maze.col * y + x;
+   var loc, viewRow, curRow;
+   loc = this.maze.curLoc + this.maze.row * y + x;
    //console.log(i + " Loc " + loc + " " + x + " " + y + " " + this.maze.col);
-   if (loc >= 0 && loc < this.maze.row * this.maze.col) {
+   
+   /*Determine the row number*/
+   viewRow = Math.floor(loc / this.maze.row);   //Row of the grid tile being examined
+   curRow = Math.floor((this.maze.curLoc + this.maze.row * y) / this.maze.row);  //Current row on
+   
+   //console.log(i + " === " + viewRow +  " vs " + curRow);
+    
+   if(viewRow != curRow) {
+      this.maze.view[i].grid = -3;
+   }
+   else if (loc >= 0 && loc < this.maze.row * this.maze.col) {
       this.maze.view[i].grid = this.maze.grid[loc];
    }
    else {
