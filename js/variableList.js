@@ -19,7 +19,7 @@ var ctxBlock;   //Block context
 
 var gameImage; //Object that'll store all the preloaded images
 var imgSrc = ["background",
- "door", "wall", "floor",
+ "door", "wall", "floor", "nothing",
  "introMenuBgd", "character", "enemy"];   //Name of images
 var backgroundImg;  //background image object
 //var tileBackground = [];  //Tile background images
@@ -64,6 +64,8 @@ var oldPos;
 var lastKey = 0;
 var tempBlkNum; //Might not need
 var tempBlkPos;
+
+var maze = [{}];
 
 /*Board Game variables*/
 //var card = [];   //Display card

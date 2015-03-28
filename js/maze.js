@@ -202,7 +202,8 @@ imageLib.prototype.genNumRange = function(min, max) {
 
 /*Create zoomed in version of the maze*/
 imageLib.prototype.initMazeSpan = function(center, img, numImg) {
-   var i;
+   var i = 0;
+   var sqTotal, extra = 2;
    
    /*Initial location in the maze*/
    this.maze.curLoc = center; //Current location within the maze array
@@ -212,23 +213,10 @@ imageLib.prototype.initMazeSpan = function(center, img, numImg) {
    for(i = 0; i < numImg; i++) {
       this.maze.img[i] = img[i];
    }
-};
-
-/*Show maze based on current pointer location in the maze grid*/
-imageLib.prototype.showMazeSpan = function() {
-   var i = 0, x, y;
-   var sqTotal, viewSqTotal, height, width, buffer, extra = 2;
-   var vBack, vFront, loc;
    
+   /*Initialize grid image array*/
    sqTotal = (this.gridRow+extra) * (this.gridCol+extra);
-   vBack = Math.floor(sqTotal / 2);
-   vFront = sqTotal - vBack;
-   
-   buffer = 1;   //Additional view that the program will look into
-   height = (Math.floor(this.gridRow/2) + buffer);// * 2 + 1;
-   width = (Math.floor(this.gridCol/2) + buffer);// * 2 + 1;
-   //viewSqTotal = height*width;
-   
+
    for(i = 0; i < sqTotal; i++) {
       this.maze.view.push(i);
       //console.log("made it 1");
@@ -243,81 +231,102 @@ imageLib.prototype.showMazeSpan = function() {
          width: 0,
          height: 0,
       };
-      //console.log("made it 2 " + this.maze.view[i]);
+   }
+
+   this.updateMazeSpan();
+};
+
+/*Show maze based on current pointer location in the maze grid*/
+imageLib.prototype.updateMazeSpan = function() {
+   var i = 0, x, y;
+   var sqTotal, viewSqTotal, height, width, buffer, extra = 2;
+   var loc;
+   
+   sqTotal = (this.gridRow+extra) * (this.gridCol+extra);
+   
+   buffer = 1;   //Additional view that the program will look into
+   height = (Math.floor(this.gridRow/2) + buffer);// * 2 + 1;
+   width = (Math.floor(this.gridCol/2) + buffer);// * 2 + 1;
+
+   /*Get the rows above player*/
+   i = 0;
+   for(y = height; y > 0; y--) {
+      /*Look left of player*/
+      for(x = width; x > 0; x--) {
+         this.getViewArea(x * -1,y * -1,i);
+         i += 1;
+      }
+      
+      /*Look right of player*/
+      for(x = 0; x <= width; x++) {
+         this.getViewArea(x,y * -1,i);
+         i += 1;
+      }
+   }
+   /*Get the rows below player*/
+   for(y = 0; y <= height; y++) {
+      /*Look left of player*/
+      for(x = width; x > 0; x--) {
+         this.getViewArea(x * -1,y,i);
+         i += 1;
+      }
+      
+      /*Look right of player*/
+      for(x = 0; x <= width; x++) {
+         this.getViewArea(x,y,i);
+         i += 1;
+      }
+   }
+   
+   /*Set image location on the canvas*/
+   i = 0;
+   for(x = -this.gridSqHeight; x < this.maze.row * this.gridSqHeight; x += this.gridSqHeight) {
+      for(y = -this.gridSqWidth; y < this.maze.col * this.gridSqWidth; y += this.gridSqWidth) {
+         this.maze.view[i].x = x;
+         this.maze.view[i].y = y;
+         //console.log("draw image @ " + this.maze.view[i].x + ", " + this.maze.view[i].y);
+      }
    }
    
    /*Draw all tiles to the maze*/
-   i = 0;
-   //for(i = 0; i < sqTotal; i++) {
-      /*Get the rows above player*/
-      for(y = height; y > 0; y--) {
-         /*Look left of player*/
-         for(x = width; x > 0; x--) {
-            this.getViewArea(x * -1,y * -1,i);
-            i += 1;
-            //console.log("===width = " + width);
-         }
-         
-         /*Middle location of the row*/
-         //this.getViewArea(0,y,i);
-         //i += 1;
-         console.log("printed middle");
-         /*Look right of player*/
-         for(x = 0; x <= width; x++) {
-            // loc = this.maze.curLoc - this.gridCol * y + x;
-            // if (loc >= 0 && loc < this.maze.row * this.maze.col) {
-               // this.maze.view[i] = this.maze.grid[loc];
-            // }
-            // else {
-               // this.maze.view[i] = -2;
-            // }
-            this.getViewArea(x,y * -1,i);
-            i += 1;
-         }
-      }
-      /*Get the rows below player*/
-      for(y = 0; y < height; y++) {
-         /*Look left of player*/
-         for(x = width; x > 0; x--) {
-            // loc = this.maze.curLoc + this.gridCol * y - x;
-            // if (loc >= 0 && loc < this.maze.row * this.maze.col) {
-               // this.maze.view[i] = this.maze.grid[loc];
-            // }
-            // else {
-               // this.maze.view[i] = -2;
-            // }
-            this.getViewArea(x * -1,y,i);
-            i += 1;
-         }
-         
-         /*Middle location of the row*/
-         //this.getViewArea(0,y,i);
-         //i += 1;
-         
-         /*Look right of player*/
-         for(x = 0; x <= width; x++) {
-            // loc = this.maze.curLoc + this.gridCol * y + x;
-            // if (loc >= 0 && loc < this.maze.row * this.maze.col) {
-               // this.maze.view[i] = this.maze.grid[loc];
-            // }
-            // else {
-               // this.maze.view[i] = -2;
-            // }
-            this.getViewArea(x,y,i);
-            i += 1;
-         }
-      }
-      /*Get current location*/
-      //this.maze.view[this.curGridLoc] = this.maze.grid[this.mazeCurLoc];
-   //}
-   
    var modNum = (Math.floor(this.gridCol/2) + buffer) * 2 + 1;
+   var image = "";
    for(i = 0; i < sqTotal; i++) {
       //line = line + this.maze.view[i].grid + ", ";
-      if ((((i + 1)) % modNum) == 0) {
+      /*Go through all the images and sub it in*/
+      console.log(this.maze.img.length);
+      for (x = 0; x < this.maze.img.length - 1; x += 2) {
+         
+         if (this.maze.view[i].grid == this.maze.img[x]) {
+            //console.log("same " + this.maze.view[i].grid + " ;';';' "+ this.maze.img[x]);
+            this.maze.view[i].img = this.maze.img[x+1];
+            //console.log(this.maze.img[x+1]);
+            //console.log(this.maze.view[i].img);
+            break;
+         }
+         //if (x+2 >= this.maze.img.length) {
+         else {
+         //else if (x+2 >= this.maze.img.length) {            
+            //console.log("diff " + this.maze.view[i].grid + " ;';';' "+ this.maze.img[x]);
+            this.maze.view[i].img = this.maze.img[x+2];
+         }
+      }
+   
+      /*Update image*/
+      //this.image = ;
+      
+      /*Draw image*/
+      //this.canvasCtx.drawImage(this.maze.view[i].img, this.maze.view[i].x, this.maze.view[i].y,  this.gridSqWidth, this.gridSqHeight);
+      //
+      //this.showMazeSpan();
+      
+//      console.log("draw image @ " + this.maze.view[i].x);
+      //character.redraw(this.maze.view[i].x, this.maze.view[i].y);
+      
+      //if ((((i + 1)) % modNum) == 0) {
          //console.log(i + "--" + line);
          //line = "";
-      }
+      //}
    }
    
    /**********TESTING!!!!!!***********/
@@ -328,6 +337,17 @@ imageLib.prototype.showMazeSpan = function() {
       line = line + this.maze.view[i].grid + ", ";
       if ((((i + 1)) % modNum) == 0) {
          console.log(i + "--" + line);
+         line = "";
+      }
+   }
+   
+   console.log( "-------------------------" );
+   for(i = 0; i < sqTotal; i++) {
+      line = line + this.maze.view[i].img + ", ";
+      //line = this.maze.view[i].img;
+      //console.log(this.maze.view[i].img);
+      if ((((i + 1)) % modNum) == 0) {
+         //console.log(i + "--" + line);
          line = "";
       }
    }
@@ -345,6 +365,17 @@ imageLib.prototype.getViewArea = function(x, y, i) {
       this.maze.view[i].grid = this.maze.grid[loc];
    }
    else {
-      this.maze.view[i].grid = -2;
+      this.maze.view[i].grid = -3;
+   }
+};
+
+imageLib.prototype.showMazeSpan = function() {
+   var i;   //Loop counter
+   var sqTotal, extra = 2;
+   sqTotal = (this.gridRow+extra) * (this.gridCol+extra);
+   
+   for(i = 0; i < sqTotal; i++) {
+      /*Draw image*/
+      this.canvasCtx.drawImage(this.maze.view[i].img, this.maze.view[i].x, this.maze.view[i].y,  this.gridSqWidth, this.gridSqHeight);
    }
 };

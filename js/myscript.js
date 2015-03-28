@@ -86,12 +86,14 @@ function setupCanvas() {
     tileBackground[3] = gameImage.loadedImg["wall"];
     tileBackground[4] = 0; //exit
     tileBackground[5] = gameImage.loadedImg["door"];
-    tileBackground[6] = gameImage.loadedImg["door"];   //Other doors
-    backgroundImg.initMazeSpan(85, tileBackground, 7);   //Tile background would be based on grid variables initMazeSpan(center, img, numImg)
+    tileBackground[6] = -3; //Outside grid/maze
+    tileBackground[7] = gameImage.loadedImg["nothing"];   //Other doors
+    tileBackground[8] = gameImage.loadedImg["door"];   //Other doors
+    backgroundImg.initMazeSpan(85, tileBackground, 9);   //Tile background would be based on grid variables initMazeSpan(center, img, numImg)
     console.log(backgroundImg.maze.grid[75]);
     console.log(backgroundImg.maze.grid[85]);
     console.log(backgroundImg.maze.grid[95]);
-    backgroundImg.showMazeSpan();   //testing!!!!!!!
+    //backgroundImg.showMazeSpan();   //testing!!!!!!!
     
     //setupGridSpots();
     
